@@ -1,14 +1,23 @@
 .button {
-  background: $blue;
+  background: $dark-blue;
   border: none;
-  color: white;
-  display: inline-block;
-  font-size: $font-size-large;
+  color: lighten($dark-blue, 30%);
+  font-size: 2.7rem;
+  padding: 0.4rem $s-size;
   font-weight: 300;
   line-height: 1;
-  padding: $s-size;
   text-decoration: none;
-}
+  border-bottom: 0.4rem solid $purple;
+  border-right: 0.2rem solid $purple;
+  border-radius: 0.3rem;
+  margin-left: 0.2rem;
+  height: 5.2rem;
+  @media (min-width: $desktop-breakpoint) {
+    display: inline-block;
+    margin-left: 1.2rem;
+    height: 5.2rem;
+  }
+};
 
 .button--link {
   background: none;
@@ -17,3 +26,24 @@
 .button--secondary {
   background: #888;
 }
+
+.button__pick {
+  font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+  font-weight: 1;
+  background: $dark-blue;
+  color: lighten($off-white, 7%);
+  display: inline-block;
+  font-size: 2rem;
+  border: 0.1rem solid $dark-blue;
+  border-radius: 0.4rem;
+  font-weight: 300;
+  margin-right: 0.2rem;
+  padding: 0;
+  height: 3.6rem;
+  width: 3.8rem;
+  @media (min-width: $desktop-breakpoint) {
+    height: 4rem;
+    width: 4.2rem;
+  }
+}
+

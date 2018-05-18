@@ -1,0 +1,13 @@
+.background {
+    display: block;
+    align-items: center;
+    background: url('/images/lul.jpg');
+    background-size: cover;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    min-height: 768px;
+    background-color: $dark-blue;
+    background-repeat: no-repeat;
+
+}

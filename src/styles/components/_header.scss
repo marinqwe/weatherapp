@@ -1,12 +1,24 @@
 .header {
-  background: $dark-blue;
+  background: $purple;
+  widows: 100vw;
 }
 
 .header__content {
-  align-items: center;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 0;
   justify-content: space-between;
-  padding: $s-size 0;
+  @media (min-width: $desktop-breakpoint){
+    flex-direction: row;
+  }
+}
+
+.eye {
+  font-size: 25px;
+  @media (min-width: $desktop-breakpoint){
+    font-size: 40px;
+  }
 }
 
 .header__title {
@@ -14,5 +26,22 @@
   text-decoration: none;
   h1 {
     margin: 0;
+    font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+    font-weight: normal;
+    text-align: center;
+    font-size: 30px;
+    @media (min-width: $desktop-breakpoint){
+      font-size: 45px;
+    }
+  }
+}
+
+.navbar__items {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: right;
+  align-items: center;
+  @media (min-width: $desktop-breakpoint){
+    flex-direction: row;
   }
 }
