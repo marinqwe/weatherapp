@@ -1,0 +1,48 @@
+.form-content {
+    text-align: center;
+    @media (min-width: $desktop-breakpoint) {
+        margin-top: $xl-size;
+        padding-top: $l-size;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    > * {
+        margin-bottom: $m-size;
+    }
+    @media (min-width: $desktop-breakpoint) {
+        flex-direction: row;
+    }
+}
+
+.form-note {
+    text-shadow: 0px 0px 7px rgba(0, 0, 0, 1);
+    color: lighten($grey, 30%);
+    margin: 0 0 $s-size 0;
+    font-style: italic;
+    text-align: inherit;
+    font-size: 1.4rem;
+}
+.form-input-note {
+    width: 70%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 50%;
+    }
+}
+
+.select {
+    @extend .text-input;
+    border: none;
+    border-bottom: 4px solid $dark-blue;
+    border-right: 2px solid $dark-blue;
+    border-radius: 5px 0 5px 5px;
+    height: 4rem;
+    background-color: $purple;
+    padding-bottom: 2px;
+    width: 95%;
+    font-weight: normal;
+}

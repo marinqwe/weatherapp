@@ -130,6 +130,7 @@ class DashboardPage extends React.Component {
             groupData: unitSwitch(prevState.units, units, groupData)
         }));
     };
+    
     render() {
         const error = this.props.location.state || false;
         let renderDashboard;

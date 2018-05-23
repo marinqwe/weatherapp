@@ -14,7 +14,7 @@ const Header = props => (
                         <FontAwesomeIcon className="eye" icon={faEye} /> Skying spies
                     </h1>
                 </Link>
-                <div className="navbar__items">
+                <div className="header__items">
                     {props.location === '/' && <Dropdown onSortChange={props.onSortChange} />}
                     {props.location === '/' && (
                         <ButtonGroup
