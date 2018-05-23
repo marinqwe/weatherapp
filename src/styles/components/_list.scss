@@ -78,6 +78,7 @@
     align-items: flex-end;
     @media (min-width: $desktop-breakpoint) {
         margin-right: $s-size;
+        padding-top: 2.3rem;
     }
 }
 
@@ -102,9 +103,9 @@
 }
 
 .list-item__description {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-align: right;
     @media (min-width: $desktop-breakpoint) {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
 }

@@ -6,8 +6,9 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    min-height: 768px;
     background-color: $dark-blue;
     background-repeat: no-repeat;
-
+    @media (min-width: $desktop-breakpoint) {
+        min-height: 768px;
+    }
 }

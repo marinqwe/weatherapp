@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Redirect } from 'react-router-dom';
 import ListItem from './ListItem';
 import LoadingPage from './LoadingPage';
