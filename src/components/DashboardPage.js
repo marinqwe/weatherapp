@@ -117,7 +117,6 @@ class DashboardPage extends React.Component {
 
     render() {
         const error = this.props.location.state || false;
-        let renderDashboard;
         if (this.state.loading) {
             return <LoadingPage />;
         }

@@ -47,42 +47,38 @@ class ForecastPage extends React.Component {
         }
     };
     render() {
-        const lon = parseFloat(this.props.location.state.lon);
-        const lat = parseFloat(this.props.location.state.lat);
-        const units = this.props.location.state.units;
-        const forecastData = this.state.forecastData;
-        const maxTemp = this.state.maxTemp;
-        const minTemp = this.state.minTemp;
-        let renderForecast;
+        const { location } = this.props;
+        const lon = parseFloat(location.state.lon);
+        const lat = parseFloat(location.state.lat);
+        const units = location.state.units;
+        const { forecastData, maxTemp, minTemp } = this.state;
         if (this.state.loading) {
-            renderForecast = <LoadingPage />;
-        } else {
-            renderForecast = (
-                <div>
-                    <Header />
-                    <div className="background">
-                        <div className="content-container">
-                            <div className="forecast__title">{this.props.location.state.name} forecast</div>
-                            <div className="forecast-body">
-                                {forecastData.map((day, i) => (
-                                    <ForecastItem
-                                        key={day.dt}
-                                        day={day}
-                                        units={units}
-                                        minTemp={minTemp}
-                                        maxTemp={maxTemp}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <div className="google-map">
-                            <MyMapComponent isMarkerShown lat={lat} lon={lon} />
+            return <LoadingPage />;
+        }
+        return (
+            <div>
+                <Header />
+                <div className="background">
+                    <div className="content-container">
+                        <div className="forecast__title">{this.props.location.state.name} forecast</div>
+                        <div className="forecast-body">
+                            {forecastData.map((day, i) => (
+                                <ForecastItem
+                                    key={day.dt}
+                                    day={day}
+                                    units={units}
+                                    minTemp={minTemp}
+                                    maxTemp={maxTemp}
+                                />
+                            ))}
                         </div>
                     </div>
+                    <div className="google-map">
+                        <MyMapComponent isMarkerShown lat={lat} lon={lon} />
+                    </div>
                 </div>
-            );
-        }
-        return <div>{renderForecast}</div>;
+            </div>
+        );
     }
 }
 
