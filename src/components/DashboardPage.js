@@ -119,50 +119,47 @@ class DashboardPage extends React.Component {
         const error = this.props.location.state || false;
         let renderDashboard;
         if (this.state.loading) {
-            renderDashboard = <LoadingPage />;
-        } else {
-            renderDashboard = (
-                <div>
-                    <Header
-                        onUnitChange={this.onUnitChange}
-                        onSortChange={this.onSortChange}
-                        currentUnit={this.state.unit}
-                        location={this.props.location.pathname}
-                    />
-                    <div className="background">
-                        <div className="content-container">
-                            {typeof error.error === 'string' && <div className="error">{error.error}</div>}
-                            <div className="list-body">
-                                {this.state.groupData.map(obj => (
-                                    <ListItem key={obj.id} value={obj} units={this.state.unit} />
-                                ))}
-                            </div>
-                            <SearchForm
-                                error={this.state.error}
-                                submitForm={this.submitForm}
-                                city={this.state.city}
-                                onInputChange={this.onInputChange}
-                            />
-                            {this.state.fireRedirect && (
-                                <Redirect
-                                    to={{
-                                        pathname: `/${this.state.city}`,
-                                        state: {
-                                            units: `${this.state.unit}`,
-                                            name: `${this.state.city}`,
-                                            lat: `${this.state.coords.lat}`,
-                                            lon: `${this.state.coords.lon}`
-                                        }
-                                    }}
-                                />
-                            )}
+            return <LoadingPage />;
+        }
+        return (
+            <div>
+                <Header
+                    onUnitChange={this.onUnitChange}
+                    onSortChange={this.onSortChange}
+                    currentUnit={this.state.unit}
+                    location={this.props.location.pathname}
+                />
+                <div className="background">
+                    <div className="content-container">
+                        {typeof error.error === 'string' && <div className="error">{error.error}</div>}
+                        <div className="list-body">
+                            {this.state.groupData.map(obj => (
+                                <ListItem key={obj.id} value={obj} units={this.state.unit} />
+                            ))}
                         </div>
+                        <SearchForm
+                            error={this.state.error}
+                            submitForm={this.submitForm}
+                            city={this.state.city}
+                            onInputChange={this.onInputChange}
+                        />
+                        {this.state.fireRedirect && (
+                            <Redirect
+                                to={{
+                                    pathname: `/${this.state.city}`,
+                                    state: {
+                                        units: `${this.state.unit}`,
+                                        name: `${this.state.city}`,
+                                        lat: `${this.state.coords.lat}`,
+                                        lon: `${this.state.coords.lon}`
+                                    }
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
-            );
-        }
-
-        return <div>{renderDashboard}</div>;
+            </div>
+        );
     }
 }
 export default DashboardPage;
