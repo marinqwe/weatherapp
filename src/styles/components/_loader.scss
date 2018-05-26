@@ -1,12 +1,18 @@
 .loader {
-  align-items: center;
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  width: 100vw;
+    @media (min-width: $desktop-breakpoint) {
+        align-items: center;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        width: 100vw;
+    }
 }
 
 .loader__image {
-  height: 6rem;
-  width: 6rem;
+    height: 4rem;
+    width: 4rem;
+    @media (min-width: $desktop-breakpoint) {
+        height: 6rem;
+        width: 6rem;
+    }
 }

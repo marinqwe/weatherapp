@@ -1,69 +1,70 @@
 import React from 'react';
 import moment from 'moment';
+import { UNITS } from '../utils/units';
 
-export const ForecastItem = props => (
+export const ForecastItem = ({ day, units, maxTemp, minTemp}) => (
     <div className="forecast-item">
-        {props.units === 'metric' && (
+        {units === UNITS.CELSIUS && (
             <div>
-                {props.day.main.temp === props.maxTemp ? (
+                {day.main.temp === maxTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__max">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__max">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;C</div>
                     </div>
-                ) : props.day.main.temp === props.minTemp ? (
+                ) : day.main.temp === minTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__min">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__min">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;C</div>
                     </div>
                 ) : (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__num">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__num">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;C</div>
                     </div>
                 )}
             </div>
         )}
-        {props.units === '' && (
+        {units === UNITS.KELVIN && (
             <div>
-                {props.day.main.temp === props.maxTemp ? (
+                {day.main.temp === maxTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__max">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__max">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit"> K</div>
                     </div>
-                ) : props.day.main.temp === props.minTemp ? (
+                ) : day.main.temp === minTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__min">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__min">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit"> K</div>
                     </div>
                 ) : (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__num">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__num">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit"> K</div>
                     </div>
                 )}
             </div>
         )}
-        {props.units === 'imperial' && (
+        {units === UNITS.FAHRENHEIT && (
             <div>
-                {props.day.main.temp === props.maxTemp ? (
+                {day.main.temp === maxTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__max">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__max">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;F</div>
                     </div>
-                ) : props.day.main.temp === props.minTemp ? (
+                ) : day.main.temp === minTemp ? (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__min">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__min">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;F</div>
                     </div>
                 ) : (
                     <div className="forecast-temp">
-                        <div className="forecast-temp__num">{Math.round(parseFloat(props.day.main.temp))}</div>
+                        <div className="forecast-temp__num">{Math.round(parseFloat(day.main.temp))}</div>
                         <div className="forecast-temp__unit">&deg;F</div>
                     </div>
                 )}
             </div>
         )}
-        <div className="forecast-day">{moment(props.day.dt_txt).format('dddd')}</div>
-        <div className="forecast-date">{moment(props.day.dt_txt).format('LL')}</div>
+        <div className="forecast-day">{moment(day.dt_txt).format('dddd')}</div>
+        <div className="forecast-date">{moment(day.dt_txt).format('LL')}</div>
     </div>
 );

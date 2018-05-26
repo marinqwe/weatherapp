@@ -4,8 +4,10 @@ import { ButtonGroup, Button } from 'react-bootstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import Dropdown from './Dropdown';
+import { UNITS } from '../utils/units';
+import { getUnits } from '../utils/unitSwitch';
 
-const Header = props => (
+const Header = ({ onSortChange, onUnitChange, currentUnit, location}) => (
     <header className="header">
         <div className="content-container">
             <div className="header__content">
@@ -15,21 +17,21 @@ const Header = props => (
                     </h1>
                 </Link>
                 <div className="header__items">
-                    {props.location === '/' && <Dropdown onSortChange={props.onSortChange} />}
-                    {props.location === '/' && (
+                    {location === '/' && <Dropdown onSortChange={onSortChange} />}
+                    {location === '/' && (
                         <ButtonGroup
                             className="input-group__item"
                             type="radio"
                             name="options"
-                            value={props.currentUnit}
+                            value={currentUnit}
                         >
-                            <Button onClick={props.onUnitChange} className="button__pick" value="metric">
+                            <Button onClick={onUnitChange} className="button__pick" value={UNITS.CELSIUS}>
                                 &deg;C
                             </Button>
-                            <Button onClick={props.onUnitChange} className="button__pick" value="imperial">
+                            <Button onClick={onUnitChange} className="button__pick" value={UNITS.FAHRENHEIT}>
                                 &deg;F
                             </Button>
-                            <Button onClick={props.onUnitChange} className="button__pick" value="">
+                            <Button onClick={onUnitChange} className="button__pick" value={UNITS.KELVIN}>
                                 K
                             </Button>
                         </ButtonGroup>

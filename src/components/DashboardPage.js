@@ -5,7 +5,8 @@ import LoadingPage from './LoadingPage';
 import Header from './Header';
 import { SearchForm } from './SearchForm';
 import { getGroupData } from '../utils/api';
-import { unitSwitch } from '../utils/unitSwitch';
+import { convertTemp, getUnits, setUnits } from '../utils/unitSwitch';
+import { UNITS } from '../utils/units';
 import { sortByName, sortByTemp, reverseSortByName, reverseSortByTemp } from '../utils/sortValue';
 import Geocode from 'react-geocode';
 import api from '../api';
@@ -16,7 +17,7 @@ class DashboardPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            units: 'metric',
+            unit: '',
             coords: {
                 lat: 0,
                 lon: 0
@@ -29,39 +30,25 @@ class DashboardPage extends React.Component {
         };
     }
     componentDidMount() {
-        try {
-            const json = localStorage.getItem('units');
-            const units = JSON.parse(json);
-
-            if (units || units === '') {
-                this.setState(
-                    () => ({ units: units }),
-                    () => {
-                        getGroupData(units).then(res => {
-                            this.setState(() => ({
-                                groupData: res,
-                                loading: false
-                            }));
-                        });
-                    }
-                );
-            } else {
-                const defaultUnits = this.state.units;
-                getGroupData(defaultUnits).then(res => {
+        const unit = getUnits();
+        this.setState(
+            () => ({
+                unit
+            }),
+            () => {
+                getGroupData(unit).then(res => {
                     this.setState(() => ({
                         groupData: res,
                         loading: false
                     }));
                 });
             }
-        } catch (err) {
-            console.log(err);
-        }
+        );
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.units !== this.state.units) {
-            const json = JSON.stringify(this.state.units);
-            localStorage.setItem('units', json);
+        if (prevState.unit !== this.state.unit) {
+            const unit = this.state.unit;
+            setUnits(unit);
         }
     }
     componentWillUnmount() {
@@ -111,25 +98,23 @@ class DashboardPage extends React.Component {
         }
     };
     onUnitChange = e => {
-        if (e.target.value === '') {
-            const kelvin = '';
-            this.changeUnits(kelvin);
-        } else if (e.target.value === 'metric') {
-            const metric = 'metric';
-            this.changeUnits(metric);
-        } else if (e.target.value === 'imperial') {
-            const imperial = 'imperial';
-            this.changeUnits(imperial);
+        const prevUnit = getUnits();
+        if (e.target.value === UNITS.KELVIN) {
+            this.changeUnit(prevUnit, UNITS.KELVIN);
+        } else if (e.target.value === UNITS.CELSIUS) {
+            this.changeUnit(prevUnit, UNITS.CELSIUS);
+        } else if (e.target.value === UNITS.FAHRENHEIT) {
+            this.changeUnit(prevUnit, UNITS.FAHRENHEIT);
         }
     };
-    changeUnits = units => {
+    changeUnit = (from, to) => {
         const groupData = [].concat(this.state.groupData);
-        this.setState(prevState => ({
-            units: units,
-            groupData: unitSwitch(prevState.units, units, groupData)
+        this.setState(() => ({
+            unit: to,
+            groupData: convertTemp(from, to, groupData)
         }));
     };
-    
+
     render() {
         const error = this.props.location.state || false;
         let renderDashboard;
@@ -141,17 +126,15 @@ class DashboardPage extends React.Component {
                     <Header
                         onUnitChange={this.onUnitChange}
                         onSortChange={this.onSortChange}
-                        currentUnit={this.state.units}
+                        currentUnit={this.state.unit}
                         location={this.props.location.pathname}
                     />
                     <div className="background">
                         <div className="content-container">
-                        {(typeof error.error === 'string') &&
-                            <div className="error">{error.error}</div>
-                        }
+                            {typeof error.error === 'string' && <div className="error">{error.error}</div>}
                             <div className="list-body">
                                 {this.state.groupData.map(obj => (
-                                    <ListItem key={obj.id} value={obj} units={this.state.units} />
+                                    <ListItem key={obj.id} value={obj} units={this.state.unit} />
                                 ))}
                             </div>
                             <SearchForm
@@ -165,7 +148,7 @@ class DashboardPage extends React.Component {
                                     to={{
                                         pathname: `/${this.state.city}`,
                                         state: {
-                                            units: `${this.state.units}`,
+                                            units: `${this.state.unit}`,
                                             name: `${this.state.city}`,
                                             lat: `${this.state.coords.lat}`,
                                             lon: `${this.state.coords.lon}`
