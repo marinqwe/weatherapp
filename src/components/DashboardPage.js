@@ -145,13 +145,13 @@ class DashboardPage extends React.Component {
                 <Header
                     onUnitChange={this.onUnitChange}
                     onSortChange={this.onSortChange}
-                    currentUnit={this.state.unit}
+                    currentUnit={unit}
                     location={this.props.location.pathname}
                 />
                 <div className="background">
                     <div className="content-container">
                         <div className="list-body">
-                            {this.state.groupData.map(obj => (
+                            {groupData.map(obj => (
                                 <ListItem key={obj.id} value={obj} units={unit} />
                             ))}
                         </div>

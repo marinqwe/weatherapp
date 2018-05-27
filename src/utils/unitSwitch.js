@@ -62,7 +62,6 @@ export const getUnits = () => {
         }
         return unit;
     } catch (error) {
-        // if local storage is empty or malformed, it'll probably throw, set it up properly
         throw new Error(error);
     }
 };
