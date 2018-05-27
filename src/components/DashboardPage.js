@@ -8,8 +8,10 @@ import { getGroupData } from '../utils/api';
 import { convertTemp, getUnits, setUnits } from '../utils/unitSwitch';
 import { UNITS } from '../utils/units';
 import { sortByName, sortByTemp, reverseSortByName, reverseSortByTemp } from '../utils/sortValue';
+import { getCityCoords } from '../utils/helpers';
 import Geocode from 'react-geocode';
 import api from '../api';
+import ErrorPage from './Error';
 
 Geocode.setApiKey(`${api.mapKey}`);
 
@@ -26,6 +28,7 @@ class DashboardPage extends React.Component {
             fireRedirect: false,
             city: '',
             error: '',
+            geocodeErr: '',
             loading: true
         };
     }
@@ -36,12 +39,19 @@ class DashboardPage extends React.Component {
                 unit
             }),
             () => {
-                getGroupData(unit).then(res => {
-                    this.setState(() => ({
-                        groupData: res,
-                        loading: false
-                    }));
-                });
+                getGroupData(unit)
+                    .then(res => {
+                        this.setState(() => ({
+                            groupData: res,
+                            loading: false
+                        }));
+                    })
+                    .catch(error => {
+                        this.setState(() => ({
+                            error,
+                            loading: false
+                        }));
+                    });
             }
         );
     }
@@ -63,18 +73,26 @@ class DashboardPage extends React.Component {
         if (!this.state.city || this.state.city.trim() === '') {
             this.setState(() => ({ error: 'Please enter a city name correctly to get the forecast.' }));
         } else {
-            Geocode.fromAddress(`${this.state.city}`).then(res => {
-                const { lat, lng } = res.results[0].geometry.location;
+            const city = this.state.city;
+            getCityCoords(city).then(res => {
                 this.setState(() => ({
                     error: '',
                     coords: {
-                        lat: lat,
-                        lon: lng
+                        lat: res.lat,
+                        lon: res.lng
                     },
                     fireRedirect: true
                 }));
-                // console.log(this.state);
-            });
+            }).catch(error => {
+                this.setState(() => ({
+                    geocodeErr: error,
+                    coords: {
+                        lat: null,
+                        lon: null
+                    },
+                    fireRedirect: true
+                }))
+            })
         }
     };
     onSortChange = e => {
@@ -116,9 +134,13 @@ class DashboardPage extends React.Component {
     };
 
     render() {
-        const error = this.props.location.state || false;
-        if (this.state.loading) {
+        const errMsg = 'Oops! Fetching data failed. Please try again.';
+        const { error, geocodeErr, unit, city, coords, loading, fireRedirect } = this.state;
+        if (loading) {
             return <LoadingPage />;
+        }
+        if (error) {
+            return <ErrorPage error={error} message={errMsg} />;
         }
         return (
             <div>
@@ -130,27 +152,27 @@ class DashboardPage extends React.Component {
                 />
                 <div className="background">
                     <div className="content-container">
-                        {typeof error.error === 'string' && <div className="error">{error.error}</div>}
                         <div className="list-body">
                             {this.state.groupData.map(obj => (
-                                <ListItem key={obj.id} value={obj} units={this.state.unit} />
+                                <ListItem key={obj.id} value={obj} units={unit} />
                             ))}
                         </div>
                         <SearchForm
-                            error={this.state.error}
+                            error={error}
                             submitForm={this.submitForm}
-                            city={this.state.city}
+                            city={city}
                             onInputChange={this.onInputChange}
                         />
-                        {this.state.fireRedirect && (
+                        {fireRedirect && (
                             <Redirect
                                 to={{
-                                    pathname: `/${this.state.city}`,
+                                    pathname: `/${city}`,
                                     state: {
-                                        units: `${this.state.unit}`,
-                                        name: `${this.state.city}`,
-                                        lat: `${this.state.coords.lat}`,
-                                        lon: `${this.state.coords.lon}`
+                                        units: `${unit}`,
+                                        name: `${city}`,
+                                        lat: `${coords.lat}`,
+                                        lon: `${coords.lon}`,
+                                        geocodeErr: `${geocodeErr}`
                                     }
                                 }}
                             />

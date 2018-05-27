@@ -3,12 +3,9 @@
     align-items: center;
     background: url('/images/lul.jpg');
     background-size: cover;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    background-color: $dark-blue;
     background-repeat: no-repeat;
+    min-height: 768px;
     @media (min-width: $desktop-breakpoint) {
-        min-height: 768px;
+        background-size: cover;
     }
 }

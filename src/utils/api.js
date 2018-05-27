@@ -27,18 +27,26 @@ export const getGroupData = (unit) => {
             return data;
         })
         .catch(err => {
-            console.log(err.response);
+            throw err;
         });
 };
 
 export const getForecastData = (q, unit) => {
     const url = 'http://api.openweathermap.org/data/2.5/forecast';
     const APPID = api.key;
+    let units = '';
+    if(unit === 'kelvin'){
+        units = '';
+    } else if(unit === 'fahrenheit') {
+        units = 'imperial';
+    } else if(unit === 'celsius') {
+        units = 'metric';
+    }
     return axios
         .get(url, {
             params: {
                 q,
-                unit,
+                units,
                 APPID
             }
         })
@@ -48,6 +56,6 @@ export const getForecastData = (q, unit) => {
             return fiveDays;
         })
         .catch(err => {
-            console.log(err);
+            throw err;
         });
 };

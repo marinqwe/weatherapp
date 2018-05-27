@@ -7,6 +7,7 @@ import Header from './Header';
 import LoadingPage from './LoadingPage';
 import { ForecastItem } from './ForecastItem';
 import { getMaxTemp, getMinTemp } from '../utils/helpers';
+import ErrorPage from './Error';
 
 class ForecastPage extends React.Component {
     constructor(props) {
@@ -16,44 +17,51 @@ class ForecastPage extends React.Component {
             maxTemp: '',
             minTemp: '',
             loading: true,
-            hasError: false
+            error: ''
         };
     }
     componentDidMount() {
         const q = this.props.match.params.q;
         const units = this.props.location.state.units;
-        getForecastData(q, units).then(res => {
-            if (res === undefined) {
-                this.setState(() => ({ hasError: true }));
-                this.handleError();
-            } else {
+        getForecastData(q, units)
+            .then(res => {
                 this.setState(() => ({
                     forecastData: res,
                     maxTemp: getMaxTemp(res),
                     minTemp: getMinTemp(res),
                     loading: false
                 }));
-            }
-        });
-    }
-    handleError = () => {
-        if (this.state.hasError === true) {
-            this.props.history.push({
-                pathname: '/',
-                state: {
-                    error: 'City not found. Make sure you got the name casing correct.'
-                }
+            })
+            .catch(error => {
+                this.setState(() => ({
+                    loading: false,
+                    error
+                }));
             });
-        }
-    };
+    }
+    // handleError = () => {
+    //     if (this.state.hasError === true) {
+    //         const err = this.state.error;
+    //         this.props.history.push({
+    //             pathname: '/',
+    //             state: {
+    //                 error: err
+    //             }
+    //         });
+    //     }
+    // };
     render() {
+        const errMsg = 'Oops! Forecast not found. Make sure you got the city name correct.';
         const { location } = this.props;
         const lon = parseFloat(location.state.lon);
         const lat = parseFloat(location.state.lat);
         const units = location.state.units;
-        const { forecastData, maxTemp, minTemp } = this.state;
-        if (this.state.loading) {
+        const { forecastData, maxTemp, minTemp, error, loading } = this.state;
+        if (loading) {
             return <LoadingPage />;
+        }
+        if (error) {
+            return <ErrorPage error={error} message={errMsg} />;
         }
         return (
             <div>
@@ -73,9 +81,13 @@ class ForecastPage extends React.Component {
                             ))}
                         </div>
                     </div>
-                    <div className="google-map">
-                        <MyMapComponent isMarkerShown lat={lat} lon={lon} />
-                    </div>
+                    {location.geocodeErr ? (
+                        <div className="error">City coordinates not found.</div>
+                    ) : (
+                        <div className="google-map">
+                            <MyMapComponent isMarkerShown lat={lat} lon={lon} />
+                        </div>
+                    )}
                 </div>
             </div>
         );
