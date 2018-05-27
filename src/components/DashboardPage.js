@@ -9,11 +9,9 @@ import { convertTemp, getUnits, setUnits } from '../utils/unitSwitch';
 import { UNITS } from '../utils/units';
 import { sortByName, sortByTemp, reverseSortByName, reverseSortByTemp } from '../utils/sortValue';
 import { getCityCoords } from '../utils/helpers';
-import Geocode from 'react-geocode';
 import api from '../api';
 import ErrorPage from './Error';
 
-Geocode.setApiKey(`${api.mapKey}`);
 
 class DashboardPage extends React.Component {
     constructor(props) {

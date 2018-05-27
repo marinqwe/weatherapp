@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { getForecastData } from '../utils/api';
-import moment from 'moment';
 import { MyMapComponent } from './GoogleMap';
 import Header from './Header';
 import LoadingPage from './LoadingPage';
@@ -39,17 +37,6 @@ class ForecastPage extends React.Component {
                 }));
             });
     }
-    // handleError = () => {
-    //     if (this.state.hasError === true) {
-    //         const err = this.state.error;
-    //         this.props.history.push({
-    //             pathname: '/',
-    //             state: {
-    //                 error: err
-    //             }
-    //         });
-    //     }
-    // };
     render() {
         const errMsg = 'Oops! Forecast not found. Make sure you got the city name correct.';
         const { location } = this.props;
