@@ -55,7 +55,7 @@ class ForecastPage extends React.Component {
                 <Header />
                 <div className="background">
                     <div className="content-container">
-                        <div className="forecast__title">{this.props.location.state.name} forecast</div>
+                        <div className="forecast__title">{location.state.name} forecast</div>
                         <div className="forecast-body">
                             {forecastData.map((day, i) => (
                                 <ForecastItem

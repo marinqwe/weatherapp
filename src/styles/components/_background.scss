@@ -4,8 +4,5 @@
     background: url('/images/lul.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    min-height: 768px;
-    @media (min-width: $desktop-breakpoint) {
-        background-size: cover;
-    }
+    min-height: 100vh;
 }
