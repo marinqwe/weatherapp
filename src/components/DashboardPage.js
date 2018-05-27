@@ -133,7 +133,7 @@ class DashboardPage extends React.Component {
 
     render() {
         const errMsg = 'Oops! Fetching data failed. Please try again.';
-        const { error, geocodeErr, unit, city, coords, loading, fireRedirect } = this.state;
+        const { error, geocodeErr, unit, city, coords, loading, fireRedirect, groupData } = this.state;
         if (loading) {
             return <LoadingPage />;
         }
